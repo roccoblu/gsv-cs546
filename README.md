@@ -17,7 +17,7 @@ This code is built upon the official repo for *Neurocomputing 2022* paper **GSV-
 * The validation data set can be changed through `GSVCitiesDataModule(val_set_names = [...])`.
 * The `fast_dev_run` field can be used before training to check if the code is in order.
 
-The code to run the model from some previous checkpoin is as follows 
+The code to run the model from some previous checkpoint is as follows 
 
 ```python
 from main import VPRModel
