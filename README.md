@@ -13,6 +13,26 @@ This code is built upon the official repo for *Neurocomputing 2022* paper **GSV-
 
 ## Training and Validation
 * Training can be run from `main.py`. The code has comments for using datasets for different cities, different aggregators and benchmark datasets.
-* Dataset zip files are uploaded in their respective folders. Unzip them inside those folder to run training and evaluation.
-* The files for different aggregators are present in models/aggregators. 
+* The files for different aggregators are present in `models/aggregators`. The aggregator fields and configurations are commented and can be changed in `VPRmodel`. 
+* The validation data set can be changed through `GSVCitiesDataModule(val_set_names = [...])`.
+* The `fast_dev_run` field can be used before training to check if the code is in order.
+
+The code to run the model from some previous checkpoin is as follows 
+
+```python
+from main import VPRModel
+
+model = VPRModel(backbone_arch='resnet50', 
+                 layers_to_crop=[],
+                 agg_arch='...',
+                 agg_config={...},
+                )
+
+state_dict = torch.load('./LOGS/resnet50...')
+model.load_state_dict(state_dict)
+model.eval()
+
+```
 ---
+
+## 
