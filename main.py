@@ -21,7 +21,7 @@ class VPRModel(pl.LightningModule):
                 layers_to_crop=[],
                 
                 #---- Aggregator
-                agg_arch='ConvAP', #CosPlace, NetVLAD, GeM, AVG
+                agg_arch='ConvAP', #CosPlace, NetVLAD, GeM, GAP, MMP
                 agg_config={},
                 
                 #---- Train hyperparameters
@@ -229,13 +229,13 @@ if __name__ == '__main__':
         batch_size=100,
         img_per_place=4,
         min_img_per_place=4,
-        # cities=['London', 'Boston', 'Melbourne'], # you can sppecify cities here or in GSVCitiesDataloader.py
+        cities=['WashingtonDC'] # 'London', 'Boston', 'Melbourne'], you can sppecify cities here or in GSVCitiesDataloader.py
         shuffle_all=False, # shuffle all images or keep shuffling in-city only
         random_sample_from_each_place=True,
         image_size=(320, 320),
-        num_workers=8,
+        num_workers=2,
         show_data_stats=True,
-        val_set_names=['pitts30k_val', 'msls_val'], # pitts30k_val, pitts30k_test, msls_val, nordland, sped
+        val_set_names=['sped'], # pitts30k_val, pitts30k_test, msls_val, nordland, sped
     )
     
     # examples of backbones
@@ -264,6 +264,9 @@ if __name__ == '__main__':
                     'out_channels': 1024,
                     's1' : 2,
                     's2' : 2},
+#         agg_arch='MMP',
+#         agg_config={'in_channels': 2048,
+#                     'out_channels': 1024},
 
         #-----------------------------------
         #---- Training hyperparameters -----
@@ -289,7 +292,6 @@ if __name__ == '__main__':
     )
     
     # model params saving using Pytorch Lightning
-    # we save the best 3 models accoring to Recall@1 on pittsburg val
     checkpoint_cb = ModelCheckpoint(
         monitor='pitts30k_val/R1',
         filename=f'{model.encoder_arch}' +
